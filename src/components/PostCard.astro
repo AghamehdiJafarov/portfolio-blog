@@ -1,6 +1,6 @@
 ---
 import { formatDate, readingMinutes } from "../utils/posts";
-import { slugify, accentClass } from "../utils/slug";
+import { slugify, accentClass, cardVariant } from "../utils/slug";
 
 interface Props {
   slug: string;
@@ -16,19 +16,23 @@ const { slug, title, dek, category, date, cover, body, index } = Astro.props;
 const no = String(index).padStart(2, "0");
 ---
 
-<article class={"card " + accentClass(category)} data-reveal>
+<article class={`card ${accentClass(category)} v${cardVariant(title)}`} data-reveal>
   <a class="card-link" href={`/posts/${slug}`}>
     {cover ? (
       <div class="card-media"><img src={cover} alt="" loading="lazy" /></div>
     ) : (
-      <div class="card-media placeholder"><span class="ph-no">№ {no}</span></div>
+      <div class="card-media placeholder">
+        <span class="ph-no">№ {no}</span>
+        <span class="ph-stamp">{category.slice(0, 3).toUpperCase()}</span>
+      </div>
     )}
     <div class="card-body">
       <div class="card-top">
-        <span class="pill">{category}</span>
+        <span class="badge">{category}</span>
         <span class="card-no">№ {no}</span>
       </div>
       <h3 class="card-title">{title}</h3>
+      <div class="card-rule"><b>✦</b></div>
       {dek && <p class="card-dek">{dek}</p>}
       <div class="card-meta">
         <span>{formatDate(date)}</span>

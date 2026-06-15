@@ -19,8 +19,14 @@ export function slugify(input: string): string {
 }
 
 // Детерминированно назначает рубрике один из акцентных цветов
-const ACCENTS = ["accent-cyan", "accent-amber", "accent-violet", "accent-coral"];
+const ACCENTS = ["accent-terra", "accent-ochre", "accent-petrol", "accent-plum", "accent-navy"];
 export function accentClass(s: string): string {
   const h = (s || "").split("").reduce((a, c) => a + c.charCodeAt(0), 0);
   return ACCENTS[h % ACCENTS.length];
+}
+
+// Чередует оформление шапки карточки (0,1,2) — для визуального разнообразия ленты
+export function cardVariant(s: string): number {
+  const h = (s || "").split("").reduce((a, c, i) => a + c.charCodeAt(0) * (i + 1), 0);
+  return h % 3;
 }

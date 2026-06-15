@@ -18,14 +18,13 @@ const rest = posts.slice(1);
     </div></div>
   ) : (
     <>
-      <section class="hero">
-        <div class="hero-glow"></div>
+      <section class={"hero " + accentClass(lead.data.category)}>
         <div class="wrap">
           <div class="hero-grid">
-            <div class={"hero-text " + accentClass(lead.data.category)}>
+            <div class="hero-text">
               <div class="hero-eyebrow">
-                <span class="live">Свежая депеша</span>
-                <span class="pill">{lead.data.category}</span>
+                <span>✦ Свежая депеша</span>
+                <span>{lead.data.category}</span>
                 <span>{formatDate(lead.data.date)}</span>
               </div>
               <h1 class="hero-title"><a href={`/posts/${lead.slug}`}>{lead.data.title}</a></h1>
@@ -34,35 +33,25 @@ const rest = posts.slice(1);
               <div class="hero-meta">№ {String(posts.length).padStart(2, "0")} · {readingMinutes(lead.entry.body)} мин чтения</div>
             </div>
 
-            <div class="radar" aria-hidden="true">
+            <div class="compass" aria-hidden="true">
               <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="sweepGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#19e0d8" stop-opacity="0.38" />
-                    <stop offset="100%" stop-color="#19e0d8" stop-opacity="0" />
-                  </linearGradient>
-                </defs>
-                <circle class="radar-ring" cx="200" cy="200" r="60" />
-                <circle class="radar-ring" cx="200" cy="200" r="110" />
-                <circle class="radar-ring" cx="200" cy="200" r="160" />
-                <circle class="radar-ring" cx="200" cy="200" r="190" />
-                <line class="radar-cross" x1="200" y1="10" x2="200" y2="390" />
-                <line class="radar-cross" x1="10" y1="200" x2="390" y2="200" />
-                <g class="radar-sweep">
-                  <path d="M200,200 L200,20 A180,180 0 0 1 327,73 Z" fill="url(#sweepGrad)" />
-                  <line x1="200" y1="200" x2="200" y2="20" stroke="#19e0d8" stroke-width="1.6" />
+                <circle class="compass-ring" cx="200" cy="200" r="186" />
+                <g class="compass-ticks">
+                  <circle cx="200" cy="200" r="176" fill="none" stroke="#8a7656" stroke-width="6" stroke-dasharray="2 13.5" opacity="0.7" />
                 </g>
-                <circle cx="132" cy="128" r="3.4" fill="#19e0d8" />
-                <circle class="ping" cx="132" cy="128" r="4" fill="#19e0d8" style="animation-delay:0s" />
-                <circle cx="288" cy="150" r="3.4" fill="#ff9e2c" />
-                <circle class="ping" cx="288" cy="150" r="4" fill="#ff9e2c" style="animation-delay:0.9s" />
-                <circle cx="300" cy="270" r="3.4" fill="#8a6dff" />
-                <circle class="ping" cx="300" cy="270" r="4" fill="#8a6dff" style="animation-delay:1.7s" />
-                <circle cx="116" cy="272" r="3.4" fill="#ff5d73" />
-                <circle class="ping" cx="116" cy="272" r="4" fill="#ff5d73" style="animation-delay:2.5s" />
-                <circle class="radar-halo" cx="200" cy="200" r="14" />
-                <circle class="radar-core" cx="200" cy="200" r="5" />
-                <text class="radar-label" x="210" y="214">БАКУ</text>
+                <circle class="compass-ring" cx="200" cy="200" r="150" stroke-width="1" />
+                <rect x="128" y="128" width="144" height="144" transform="rotate(45 200 200)" fill="none" stroke="#dfa42b" stroke-width="1" opacity="0.55" />
+                <g transform="rotate(45 200 200)">
+                  <path class="compass-rose-c" d="M200 96 L207 200 L200 304 L193 200 Z" opacity="0.9" />
+                  <path class="compass-rose-c" d="M96 200 L200 193 L304 200 L200 207 Z" opacity="0.9" />
+                </g>
+                <path class="compass-rose-a" d="M200 62 L211 200 L200 338 L189 200 Z" />
+                <path class="compass-rose-b" d="M62 200 L200 189 L338 200 L200 211 Z" />
+                <text class="compass-letter" x="200" y="44" text-anchor="middle">N</text>
+                <text class="compass-letter" x="366" y="208" text-anchor="middle">E</text>
+                <text class="compass-letter" x="200" y="374" text-anchor="middle">S</text>
+                <text class="compass-letter" x="34" y="208" text-anchor="middle">W</text>
+                <circle class="compass-hub" cx="200" cy="200" r="10" />
               </svg>
             </div>
           </div>

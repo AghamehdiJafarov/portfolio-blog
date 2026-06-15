@@ -13,6 +13,14 @@ const pageTitle = title ? `${title} — ${site.title}` : `${site.title} — ${si
 const pageDesc = description || site.description;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const year = new Date().getFullYear();
+
+const ticker = [
+  "40.4°N · 49.9°E — БАКУ",
+  "МИРОВЫЕ ПРОЦЕССЫ",
+  "АНАЛИЗ · НЕ НОВОСТНАЯ ЛЕНТА",
+  "КАСПИЙСКАЯ ПЕРСПЕКТИВА",
+  "DISPATCH FEED // LIVE",
+];
 ---
 
 <!doctype html>
@@ -20,6 +28,7 @@ const year = new Date().getFullYear();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#070b10" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDesc} />
     <link rel="canonical" href={canonical} />
@@ -30,15 +39,39 @@ const year = new Date().getFullYear();
     <meta property="og:locale" content="ru_RU" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="alternate" type="application/rss+xml" title={site.title} href={new URL("/rss.xml", Astro.site)} />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e7e3d9'/%3E%3Cline x1='16' y1='3' x2='16' y2='29' stroke='%231e545c' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='5.5' fill='none' stroke='%238c6e36' stroke-width='1.4'/%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070b10'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2319e0d8' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2319e0d8'/%3E%3Cline x1='16' y1='6' x2='16' y2='26' stroke='%2319e0d8' stroke-width='1' opacity='.5'/%3E%3C/svg%3E" />
+    <script is:inline>
+      (function () {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        document.documentElement.classList.add("reveal-ready");
+        function run() {
+          var els = document.querySelectorAll("[data-reveal]");
+          if (!("IntersectionObserver" in window)) {
+            els.forEach(function (e) { e.classList.add("in"); });
+            return;
+          }
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+          els.forEach(function (e, i) {
+            e.style.transitionDelay = Math.min(i * 55, 320) + "ms";
+            io.observe(e);
+          });
+        }
+        if (document.readyState !== "loading") run();
+        else document.addEventListener("DOMContentLoaded", run);
+      })();
+    </script>
   </head>
   <body>
     <header class="mast">
       <div class="wrap mast-in">
         <a class="brand" href="/">
-          <span class="coord">40.4°N · 49.9°E — Баку</span>
-          <span class="title">{site.title}</span>
-          {site.tagline && <span class="tagline">{site.tagline}</span>}
+          <span class="dot"></span>
+          <span class="mark">{site.title}</span>
+          <span class="sub">40.4°N · 49.9°E</span>
         </a>
         <nav class="nav">
           <a href="/">Лента</a>
@@ -47,6 +80,13 @@ const year = new Date().getFullYear();
       </div>
     </header>
 
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">{ticker.map((t) => <span>{t}</span>)}</span>
+        <span class="ticker-item" aria-hidden="true">{ticker.map((t) => <span>{t}</span>)}</span>
+      </div>
+    </div>
+
     <main>
       <slot />
     </main>
@@ -54,7 +94,7 @@ const year = new Date().getFullYear();
     <footer class="foot">
       <div class="wrap foot-in">
         <span>{site.title} · {year}</span>
-        <span>40.4°N · 49.9°E</span>
+        <span><a href="/rss.xml">RSS</a> · 40.4°N 49.9°E</span>
       </div>
     </footer>
   </body>

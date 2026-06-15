@@ -17,3 +17,10 @@ export function slugify(input: string): string {
     .replace(/^-+|-+$/g, "");
   return base || "material";
 }
+
+// Детерминированно назначает рубрике один из акцентных цветов
+const ACCENTS = ["accent-cyan", "accent-amber", "accent-violet", "accent-coral"];
+export function accentClass(s: string): string {
+  const h = (s || "").split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  return ACCENTS[h % ACCENTS.length];
+}

@@ -1,0 +1,65 @@
+---
+import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
+import { getPosts, formatDate } from "../utils/posts";
+import { slugify } from "../utils/slug";
+
+const posts = await getPosts();
+const categories = [...new Set(posts.map((p) => p.data.category))].sort((a, b) => a.localeCompare(b, "ru"));
+const lead = posts[0];
+const rest = posts.slice(1);
+---
+
+<Base>
+  {posts.length > 0 && (
+    <div class="wrap">
+      <div class="filters">
+        <span class="chip on">Все</span>
+        {categories.map((c) => (
+          <a class="chip" href={`/categories/${slugify(c)}`}>{c}</a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {posts.length === 0 ? (
+    <div class="wrap">
+      <div class="empty">
+        <h2>Здесь пока пусто</h2>
+        <p>Откройте редактор на странице /admin и опубликуйте первый материал.</p>
+      </div>
+    </div>
+  ) : (
+    <>
+      <div class="wrap">
+        <article class="lead">
+          <div class="eyebrow">
+            <span>Свежее</span>
+            <a class="cat" href={`/categories/${slugify(lead.data.category)}`}>{lead.data.category}</a>
+            <span>{formatDate(lead.data.date)}</span>
+          </div>
+          <a class="lead-title" href={`/posts/${lead.slug}`}>{lead.data.title}</a>
+          {lead.data.dek && <p class="lead-dek">{lead.data.dek}</p>}
+          {lead.data.cover && (
+            <a href={`/posts/${lead.slug}`}><img class="lead-cover" src={lead.data.cover} alt="" /></a>
+          )}
+        </article>
+      </div>
+      <div class="wrap">
+        <div class="feed">
+          {rest.map((p, i) => (
+            <PostCard
+              slug={p.slug}
+              title={p.data.title}
+              dek={p.data.dek}
+              category={p.data.category}
+              date={p.data.date}
+              body={p.entry.body}
+              index={rest.length - i}
+            />
+          ))}
+        </div>
+      </div>
+    </>
+  )}
+</Base>

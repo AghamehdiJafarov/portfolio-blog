@@ -1,0 +1,32 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getPosts, formatDate, readingMinutes } from "../../utils/posts";
+import { slugify } from "../../utils/slug";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((p) => ({ params: { slug: p.slug }, props: { item: p } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item.entry);
+const d = item.data;
+---
+
+<Base title={d.title} description={d.dek} article={true}>
+  <div class="wrap narrow article">
+    <a class="a-back" href="/">← Все материалы</a>
+    <div class="a-eyebrow">
+      <a class="cat" href={`/categories/${slugify(d.category)}`}>{d.category}</a>
+      <span>{formatDate(d.date)}</span>
+      <span>{readingMinutes(item.entry.body)} мин чтения</span>
+    </div>
+    <h1 class="a-title">{d.title}</h1>
+    {d.dek && <p class="a-dek">{d.dek}</p>}
+    {d.cover && <img class="a-cover" src={d.cover} alt="" />}
+    <div class="a-body">
+      <Content />
+    </div>
+  </div>
+</Base>

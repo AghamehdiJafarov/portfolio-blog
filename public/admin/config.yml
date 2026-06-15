@@ -1,0 +1,63 @@
+# ─────────────────────────────────────────────────────────────
+#  АВТОРИЗАЦИЯ (через DecapBridge — заменяет отключённый логин Netlify)
+#  Зарегистрируйте сайт на decapbridge.com, привяжите GitHub-репозиторий,
+#  и панель выдаст готовый блок backend. Скопируйте его СЮДА вместо
+#  четырёх строк, помеченных REPLACE.
+# ─────────────────────────────────────────────────────────────
+backend:
+  name: git-gateway
+  repo: REPLACE-ваш-логин/ваш-репозиторий        # REPLACE — даст DecapBridge
+  branch: main
+  identity_url: REPLACE-https://auth.decapbridge.com/sites/ваш-id   # REPLACE — даст DecapBridge
+  gateway_url: https://gateway.decapbridge.com
+  commit_messages:
+    create: 'Создан материал «{{slug}}» — {{author-name}}'
+    update: 'Обновлён материал «{{slug}}» — {{author-name}}'
+    delete: 'Удалён материал «{{slug}}» — {{author-name}}'
+
+# Для локальной проверки на компьютере (npm run dev + npx decap-server)
+# раскомментируйте строку ниже, затем верните комментарий перед публикацией:
+# local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+locale: "ru"
+
+slug:
+  encoding: "unicode"
+  clean_accents: false
+
+collections:
+  - name: "posts"
+    label: "Материалы"
+    label_singular: "Материал"
+    description: "Статьи и заметки блога"
+    folder: "src/content/posts"
+    create: true
+    slug: "{{fields.title}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}  ·  {{category}}  ·  {{date}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Заголовок", name: "title", widget: "string" }
+      - { label: "Краткое описание", name: "dek", widget: "text", required: false, hint: "Одна-две фразы — их видно в ленте и в поиске" }
+      - { label: "Рубрика", name: "category", widget: "string", hint: "Просто впишите название. Новое название = новая рубрика." }
+      - { label: "Дата", name: "date", widget: "datetime", date_format: "DD.MM.YYYY", time_format: false, format: "YYYY-MM-DD", picker_utc: false, default: "" }
+      - { label: "Обложка", name: "cover", widget: "image", required: false, hint: "Необязательно" }
+      - { label: "Черновик", name: "draft", widget: "boolean", default: false, required: false, hint: "Включите, чтобы не публиковать материал" }
+      - { label: "Текст", name: "body", widget: "markdown" }
+
+  - name: "settings"
+    label: "Настройки сайта"
+    delete: false
+    editor: { preview: false }
+    files:
+      - name: "site"
+        label: "Название и описание"
+        file: "src/data/site.json"
+        fields:
+          - { label: "Название", name: "title", widget: "string" }
+          - { label: "Подзаголовок", name: "tagline", widget: "string" }
+          - { label: "Описание для поиска", name: "description", widget: "text" }

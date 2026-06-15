@@ -1,0 +1,30 @@
+---
+import { formatDate, readingMinutes } from "../utils/posts";
+import { slugify } from "../utils/slug";
+
+interface Props {
+  slug: string;
+  title: string;
+  dek?: string;
+  category: string;
+  date: Date;
+  body?: string;
+  index: number;
+}
+const { slug, title, dek, category, date, body, index } = Astro.props;
+---
+
+<article class="row">
+  <div class="row-meta">
+    <span class="idx">№ {String(index).padStart(2, "0")}</span>
+    {formatDate(date)}<br />
+    {readingMinutes(body)} мин
+  </div>
+  <div>
+    <a class="row-cat" href={`/categories/${slugify(category)}`}>{category}</a>
+    <a class="row-link" href={`/posts/${slug}`}>
+      <h3 class="row-title">{title}</h3>
+      {dek && <p class="row-dek">{dek}</p>}
+    </a>
+  </div>
+</article>

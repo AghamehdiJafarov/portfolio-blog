@@ -1,0 +1,48 @@
+---
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPosts } from "../../utils/posts";
+import { slugify } from "../../utils/slug";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const groups: Record<string, typeof posts> = {};
+  for (const p of posts) {
+    const c = p.data.category;
+    (groups[c] ??= []).push(p);
+  }
+  return Object.entries(groups).map(([name, list]) => ({
+    params: { category: slugify(name) },
+    props: { name, posts: list },
+  }));
+}
+
+const { name, posts } = Astro.props;
+const allCats = [...new Set((await getPosts()).map((p) => p.data.category))].sort((a, b) => a.localeCompare(b, "ru"));
+---
+
+<Base title={name}>
+  <div class="wrap">
+    <div class="filters">
+      <a class="chip" href="/">Все</a>
+      {allCats.map((c) => (
+        <a class={"chip" + (c === name ? " on" : "")} href={`/categories/${slugify(c)}`}>{c}</a>
+      ))}
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="feed" style="padding-top:24px;">
+      {posts.map((p, i) => (
+        <PostCard
+          slug={p.slug}
+          title={p.data.title}
+          dek={p.data.dek}
+          category={p.data.category}
+          date={p.data.date}
+          body={p.entry.body}
+          index={posts.length - i}
+        />
+      ))}
+    </div>
+  </div>
+</Base>

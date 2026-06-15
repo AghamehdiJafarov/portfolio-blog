@@ -8,13 +8,14 @@ interface Props {
   dek?: string;
   category: string;
   date: Date;
+  cover?: string;
   body?: string;
   index: number;
 }
-const { slug, title, dek, category, date, body, index } = Astro.props;
+const { slug, title, dek, category, date, cover, body, index } = Astro.props;
 ---
 
-<article class="row">
+<article class={"row" + (cover ? " has-cover" : "")}>
   <div class="row-meta">
     <span class="idx">№ {String(index).padStart(2, "0")}</span>
     {formatDate(date)}<br />
@@ -27,4 +28,7 @@ const { slug, title, dek, category, date, body, index } = Astro.props;
       {dek && <p class="row-dek">{dek}</p>}
     </a>
   </div>
+  {cover && (
+    <a href={`/posts/${slug}`}><img class="row-thumb" src={cover} alt="" /></a>
+  )}
 </article>

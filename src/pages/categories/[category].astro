@@ -39,6 +39,7 @@ const allCats = [...new Set((await getPosts()).map((p) => p.data.category))].sor
           dek={p.data.dek}
           category={p.data.category}
           date={p.data.date}
+          cover={p.data.cover}
           body={p.entry.body}
           index={posts.length - i}
         />

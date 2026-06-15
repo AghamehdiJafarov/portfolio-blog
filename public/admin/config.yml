@@ -4,16 +4,28 @@
 #  и панель выдаст готовый блок backend. Скопируйте его СЮДА вместо
 #  четырёх строк, помеченных REPLACE.
 # ─────────────────────────────────────────────────────────────
+# Use DecapBridge classic auth (required)
 backend:
   name: git-gateway
-  repo: REPLACE-ваш-логин/ваш-репозиторий        # REPLACE — даст DecapBridge
+  repo: AghamehdiJafarov/portfolio-blog
   branch: main
-  identity_url: REPLACE-https://auth.decapbridge.com/sites/ваш-id   # REPLACE — даст DecapBridge
+  identity_url: https://auth.decapbridge.com/sites/203aeaba-26da-4f86-aef8-10b8a565495f
   gateway_url: https://gateway.decapbridge.com
+
+  # See who did what (optional)
   commit_messages:
-    create: 'Создан материал «{{slug}}» — {{author-name}}'
-    update: 'Обновлён материал «{{slug}}» — {{author-name}}'
-    delete: 'Удалён материал «{{slug}}» — {{author-name}}'
+    create: Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    update: Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    delete: Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    uploadMedia: Upload “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    deleteMedia: Delete “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
+
+# Better Decap + Bridge logo (optional)
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+
+# Add site links in Decap CMS (optional)
+site_url: https://portfolio-blog-mehdi.netlify.app
 
 # Для локальной проверки на компьютере (npm run dev + npx decap-server)
 # раскомментируйте строку ниже, затем верните комментарий перед публикацией:

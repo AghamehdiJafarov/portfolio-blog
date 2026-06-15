@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=Libre+Franklin:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
-  --paper: #ece9e0;
-  --paper-2: #f3f0e8;
-  --paper-3: #ddd8cb;
-  --ink: #121815;
-  --ink-soft: #3d443f;
-  --ink-faint: #6b716a;
-  --line: #c0bbac;
+  --paper: #f6f4ee;
+  --paper-2: #fbfaf6;
+  --paper-3: #e7e3d9;
+  --ink: #0f1310;
+  --ink-soft: #363c37;
+  --ink-faint: #62685f;
+  --line: #d6d0c3;
   --teal: #1c565e;
   --teal-deep: #123a40;
   --brass: #7a5d27;

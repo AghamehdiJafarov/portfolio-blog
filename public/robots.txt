@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # ПОСЛЕ ДЕПЛОЯ замените адрес на свой:
-Sitemap: https://example.netlify.app/sitemap-index.xml
+Sitemap: https://portfolio-blog-mehdi.netlify.app
